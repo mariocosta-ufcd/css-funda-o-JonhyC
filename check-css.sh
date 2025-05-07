@@ -56,7 +56,7 @@ fi
 
 ## 02
 
-exercise_path="02"
+exercise_path="foundations/intro-to-css/02-class-id-selectors"
 html_file="$exercise_path/index.html"
 
 echo "🔍 Verificando exercício 02 - Estrutura de classes e IDs..."
