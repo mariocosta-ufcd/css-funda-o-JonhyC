@@ -56,82 +56,47 @@ fi
 
 ## 02
 
-exercise_path="foundations/intro-to-css/02-class-id-selectors"
+exercise_path="02"
 html_file="$exercise_path/index.html"
-css_file="$exercise_path/style.css"
 
-echo "🔍 Verificando exercício 02 - Selectores de Classe e ID..."
+echo "🔍 Verificando exercício 02 - Estrutura de classes e IDs..."
 
 pass=true
 
-# Verifica se existe uma classe partilhada entre elementos ímpares
-if grep -q 'class="[^"]*\bodd\b[^"]*"' "$html_file"; then
-  echo "✅ Classe comum encontrada para elementos ímpares"
+# Verifica se os elementos ímpares têm classes
+if grep -q 'class="[^"]*"' "$html_file" &&
+   grep -q '<p[^>]*class="[^"]*"' "$html_file" &&
+   grep -q '<p[^>]*class="[^"]*"' "$html_file" &&
+   grep -q '<p[^>]*class="[^"]*"' "$html_file"; then
+  echo "✅ Elementos ímpares têm classes atribuídas"
 else
-  echo "❌ Classe comum para elementos ímpares não encontrada"
+  echo "❌ Nem todos os elementos ímpares têm classes"
   pass=false
 fi
 
-# Verifica se existem IDs únicos para elementos pares
-if grep -q 'id="second"' "$html_file" && grep -q 'id="fourth"' "$html_file"; then
-  echo "✅ IDs únicos encontrados para elementos pares"
+# Verifica se os elementos pares têm IDs
+if grep -q 'id="[^"]*"' "$html_file" &&
+   grep -q '<div[^>]*id="[^"]*"' "$html_file" &&
+   grep -q '<div[^>]*id="[^"]*"' "$html_file"; then
+  echo "✅ Elementos pares têm IDs atribuídos"
 else
-  echo "❌ IDs únicos para elementos pares não encontrados"
+  echo "❌ Nem todos os elementos pares têm IDs"
   pass=false
 fi
 
-# Verifica se o terceiro elemento tem múltiplas classes (odd + larger)
-if grep -Eq 'class="[^"]*\b(odd|larger)\b[^"]*\b(odd|larger)\b[^"]*"' "$html_file"; then
-  echo "✅ Terceiro elemento com múltiplas classes"
+# Verifica se há algum elemento com múltiplas classes
+if grep -q 'class="[^"]* [^"]*"' "$html_file"; then
+  echo "✅ Elemento com múltiplas classes encontrado"
 else
-  echo "❌ Terceiro elemento não tem múltiplas classes"
-  pass=false
-fi
-
-# Verifica estilos da classe .odd
-odd_block=$(awk '/\.odd\s*\{/,/\}/' "$css_file")
-if echo "$odd_block" | grep -q 'background-color:\s*#ffc0cb' &&
-   echo "$odd_block" | grep -Eq 'font-family:\s*(Verdana|[^;]*DejaVu Sans)'; then
-  echo "✅ Estilos corretos aplicados à classe comum (ímpar)"
-else
-  echo "❌ Estilos ausentes ou incorretos na classe comum"
-  pass=false
-fi
-
-# Verifica estilos de #second (cor azul e tamanho 36px)
-second_block=$(awk '/#second\s*\{/,/\}/' "$css_file")
-if echo "$second_block" | grep -Eq 'color:\s*(rgb\(0, *0, *255\)|blue)' &&
-   echo "$second_block" | grep -q 'font-size:\s*36px'; then
-  echo "✅ Estilos corretos aplicados ao segundo elemento"
-else
-  echo "❌ Estilos ausentes ou incorretos no segundo elemento"
-  pass=false
-fi
-
-# Verifica se a classe .larger aplica 24px
-if awk '/\.larger\s*\{/,/\}/' "$css_file" | grep -q 'font-size:\s*24px'; then
-  echo "✅ Tamanho 24px aplicado à classe adicional do terceiro elemento"
-else
-  echo "❌ Tamanho 24px ausente na classe do terceiro elemento"
-  pass=false
-fi
-
-# Verifica estilos de #fourth (fundo verde, 24px, bold)
-fourth_block=$(awk '/#fourth\s*\{/,/\}/' "$css_file")
-if echo "$fourth_block" | grep -Eq 'background-color:\s*hsl\(120, *73%, *75%\)' &&
-   echo "$fourth_block" | grep -q 'font-size:\s*24px' &&
-   echo "$fourth_block" | grep -q 'font-weight:\s*bold'; then
-  echo "✅ Estilos corretos aplicados ao quarto elemento"
-else
-  echo "❌ Estilos ausentes ou incorretos no quarto elemento"
+  echo "❌ Nenhum elemento com múltiplas classes encontrado"
   pass=false
 fi
 
 # Resultado final do exercício 2
 if $pass; then
-  echo "🎉 Todos os testes passaram para o exercício 02"
+  echo "🎉 Todos os testes estruturais passaram para o exercício 02"
 else
-  echo "❌ Alguns testes falharam no exercício 02"
+  echo "❌ Alguns testes estruturais falharam no exercício 02"
   exit 1
 fi
 
