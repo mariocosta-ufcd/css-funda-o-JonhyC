@@ -1,0 +1,18 @@
+.n1, .n3, .n5{
+    background-color: rgb(255, 122, 122);
+}
+
+#n2{
+    color: blue;
+    font-size: 36px;
+}
+
+.n3{
+    font-size: 24px;
+}
+
+#n4{
+    background-color: rgb(127, 255, 127);
+    font-size: 24px;
+    font-weight: bold;
+}
