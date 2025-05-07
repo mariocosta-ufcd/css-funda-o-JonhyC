@@ -1,6 +1,132 @@
 #!/bin/bash
 
+## 01
 
+exercise_path="foundations/intro-to-css/01-css-methods"
+html_file="$exercise_path/index.html"
+css_file="$exercise_path/style.css"
+
+echo "🔍 Verificando exercício 01 - Métodos de Adicionar CSS..."
+
+pass=true
+
+# Verifica se o div está estilizado via CSS externo
+if awk '/div *\{/,/\}/' "$css_file" | grep -q 'background-color: *red' &&
+   awk '/div *\{/,/\}/' "$css_file" | grep -q 'color: *white' &&
+   awk '/div *\{/,/\}/' "$css_file" | grep -q 'font-size: *32px' &&
+   awk '/div *\{/,/\}/' "$css_file" | grep -q 'text-align: *center' &&
+   awk '/div *\{/,/\}/' "$css_file" | grep -q 'font-weight: *bold'; then
+  echo "✅ div com CSS externo está correto"
+else
+  echo "❌ div com CSS externo está incorreto ou incompleto"
+  pass=false
+fi
+
+# Verifica se há <style> no HTML (CSS interno)
+if grep -q "<style>" "$html_file"; then
+  echo "✅ CSS interno presente no HTML"
+else
+  echo "❌ CSS interno não encontrado no HTML"
+  pass=false
+fi
+
+# Verifica se o p tem estilos via CSS interno
+if grep -E '<style>.*p *\{[^}]*background[^}]*green[^}]*color[^}]*white[^}]*font-size[^}]*18px' "$html_file" -z > /dev/null; then
+  echo "✅ p com CSS interno está correto"
+else
+  echo "❌ p com CSS interno está incorreto ou incompleto"
+  pass=false
+fi
+
+# Verifica se o button tem estilo inline
+if grep -E '<button[^>]*style="[^"]*background[^"]*orange[^"]*font-size[^"]*18px' "$html_file" > /dev/null; then
+  echo "✅ button com estilo inline está correto"
+else
+  echo "❌ button com estilo inline está incorreto ou incompleto"
+  pass=false
+fi
+
+# Resultado final
+if $pass; then
+  echo "🎉 Todos os testes passaram para o exercício 01"
+else
+  echo "❌ Alguns testes falharam no exercício 01"
+  exit 1
+fi
+
+## 02
+
+exercise_path="foundations/intro-to-css/02-class-id-selectors"
+html_file="$exercise_path/index.html"
+css_file="$exercise_path/style.css"
+
+echo "🔍 Verificando exercício 02 - Selectores de Classe e ID..."
+
+pass=true
+
+# Verifica se existe uma classe partilhada entre elementos ímpares
+if grep -q 'class="[^"]*odd[^"]*"' "$html_file"; then
+  echo "✅ Classe comum encontrada para elementos ímpares"
+else
+  echo "❌ Classe comum para elementos ímpares não encontrada"
+  pass=false
+fi
+
+# Verifica se existem IDs únicos para elementos pares
+if grep -q 'id="second"' "$html_file" && grep -q 'id="fourth"' "$html_file"; then
+  echo "✅ IDs únicos encontrados para elementos pares"
+else
+  echo "❌ IDs únicos para elementos pares não encontrados"
+  pass=false
+fi
+
+# Verifica se o terceiro elemento tem múltiplas classes
+if grep -E 'class="[^"]*odd[^"]*[^"]*larger[^"]*"' "$html_file"; then
+  echo "✅ Terceiro elemento com múltiplas classes"
+else
+  echo "❌ Terceiro elemento não tem múltiplas classes"
+  pass=false
+fi
+
+# Verifica se a classe comum tem o estilo correto no CSS
+if grep -E '\.odd\s*\{[^}]*background[^:]*:[^;]*#[a-fA-F0-9]{3,6}[^;]*;[^}]*font-family[^}]*Verdana' "$css_file" > /dev/null; then
+  echo "✅ Estilos corretos aplicados à classe comum (ímpar)"
+else
+  echo "❌ Estilos ausentes ou incorretos na classe comum"
+  pass=false
+fi
+
+# Verifica se o segundo elemento tem a cor e tamanho de fonte corretos
+if grep -E '#second\s*\{[^}]*color[^:]*:[^;]*[^;]*;[^}]*font-size[^:]*:[^;]*36px' "$css_file" > /dev/null; then
+  echo "✅ Estilos corretos aplicados ao segundo elemento"
+else
+  echo "❌ Estilos ausentes ou incorretos no segundo elemento"
+  pass=false
+fi
+
+# Verifica se o terceiro elemento tem tamanho 24px
+if grep -E '\.larger\s*\{[^}]*font-size[^:]*:[^;]*24px' "$css_file" > /dev/null; then
+  echo "✅ Tamanho 24px aplicado à classe adicional do terceiro elemento"
+else
+  echo "❌ Tamanho 24px ausente na classe do terceiro elemento"
+  pass=false
+fi
+
+# Verifica se o quarto elemento está em negrito com fundo verde-claro
+if grep -E '#fourth\s*\{[^}]*background[^:]*:[^;]*[^;]*;[^}]*font-size[^:]*:[^;]*24px[^}]*font-weight[^:]*:[^;]*bold' "$css_file" > /dev/null; then
+  echo "✅ Estilos corretos aplicados ao quarto elemento"
+else
+  echo "❌ Estilos ausentes ou incorretos no quarto elemento"
+  pass=false
+fi
+
+# Resultado final do exercício 2
+if $pass; then
+  echo "🎉 Todos os testes passaram para o exercício 02"
+else
+  echo "❌ Alguns testes falharam no exercício 02"
+  exit 1
+fi
 
 ## 03
 
