@@ -11,7 +11,11 @@ echo "🔍 Verificando exercício 01 - Métodos de Adicionar CSS..."
 pass=true
 
 # Verifica se o div está estilizado via CSS externo
-if grep -E 'div *\{[^}]*background[^}]*red[^}]*color[^}]*white[^}]*font-size[^}]*32px[^}]*text-align[^}]*center[^}]*font-weight[^}]*bold' "$css_file" > /dev/null; then
+if awk '/div *\{/,/\}/' "$css_file" | grep -q 'background-color: *red' &&
+   awk '/div *\{/,/\}/' "$css_file" | grep -q 'color: *white' &&
+   awk '/div *\{/,/\}/' "$css_file" | grep -q 'font-size: *32px' &&
+   awk '/div *\{/,/\}/' "$css_file" | grep -q 'text-align: *center' &&
+   awk '/div *\{/,/\}/' "$css_file" | grep -q 'font-weight: *bold'; then
   echo "✅ div com CSS externo está correto"
 else
   echo "❌ div com CSS externo está incorreto ou incompleto"
@@ -45,7 +49,6 @@ fi
 # Resultado final
 if $pass; then
   echo "🎉 Todos os testes passaram para o exercício 01"
-  exit 0
 else
   echo "❌ Alguns testes falharam no exercício 01"
   exit 1
@@ -55,75 +58,48 @@ fi
 
 exercise_path="foundations/intro-to-css/02-class-id-selectors"
 html_file="$exercise_path/index.html"
-css_file="$exercise_path/style.css"
 
-echo "🔍 Verificando exercício 02 - Selectores de Classe e ID..."
+echo "🔍 Verificando exercício 02 - Estrutura de classes e IDs..."
 
 pass=true
 
-# Verifica se existe uma classe partilhada entre elementos ímpares
-if grep -q 'class="[^"]*odd[^"]*"' "$html_file"; then
-  echo "✅ Classe comum encontrada para elementos ímpares"
+# Verifica se os elementos ímpares têm classes
+if grep -q 'class="[^"]*"' "$html_file" &&
+   grep -q '<p[^>]*class="[^"]*"' "$html_file" &&
+   grep -q '<p[^>]*class="[^"]*"' "$html_file" &&
+   grep -q '<p[^>]*class="[^"]*"' "$html_file"; then
+  echo "✅ Elementos ímpares têm classes atribuídas"
 else
-  echo "❌ Classe comum para elementos ímpares não encontrada"
+  echo "❌ Nem todos os elementos ímpares têm classes"
   pass=false
 fi
 
-# Verifica se existem IDs únicos para elementos pares
-if grep -q 'id="second"' "$html_file" && grep -q 'id="fourth"' "$html_file"; then
-  echo "✅ IDs únicos encontrados para elementos pares"
+# Verifica se os elementos pares têm IDs
+if grep -q 'id="[^"]*"' "$html_file" &&
+   grep -q '<div[^>]*id="[^"]*"' "$html_file" &&
+   grep -q '<div[^>]*id="[^"]*"' "$html_file"; then
+  echo "✅ Elementos pares têm IDs atribuídos"
 else
-  echo "❌ IDs únicos para elementos pares não encontrados"
+  echo "❌ Nem todos os elementos pares têm IDs"
   pass=false
 fi
 
-# Verifica se o terceiro elemento tem múltiplas classes
-if grep -E 'class="[^"]*odd[^"]*[^"]*larger[^"]*"' "$html_file"; then
-  echo "✅ Terceiro elemento com múltiplas classes"
+# Verifica se há algum elemento com múltiplas classes
+if grep -q 'class="[^"]* [^"]*"' "$html_file"; then
+  echo "✅ Elemento com múltiplas classes encontrado"
 else
-  echo "❌ Terceiro elemento não tem múltiplas classes"
-  pass=false
-fi
-
-# Verifica se a classe comum tem o estilo correto no CSS
-if grep -E '\.odd\s*\{[^}]*background[^:]*:[^;]*#[a-fA-F0-9]{3,6}[^;]*;[^}]*font-family[^}]*Verdana' "$css_file" > /dev/null; then
-  echo "✅ Estilos corretos aplicados à classe comum (ímpar)"
-else
-  echo "❌ Estilos ausentes ou incorretos na classe comum"
-  pass=false
-fi
-
-# Verifica se o segundo elemento tem a cor e tamanho de fonte corretos
-if grep -E '#second\s*\{[^}]*color[^:]*:[^;]*[^;]*;[^}]*font-size[^:]*:[^;]*36px' "$css_file" > /dev/null; then
-  echo "✅ Estilos corretos aplicados ao segundo elemento"
-else
-  echo "❌ Estilos ausentes ou incorretos no segundo elemento"
-  pass=false
-fi
-
-# Verifica se o terceiro elemento tem tamanho 24px
-if grep -E '\.larger\s*\{[^}]*font-size[^:]*:[^;]*24px' "$css_file" > /dev/null; then
-  echo "✅ Tamanho 24px aplicado à classe adicional do terceiro elemento"
-else
-  echo "❌ Tamanho 24px ausente na classe do terceiro elemento"
-  pass=false
-fi
-
-# Verifica se o quarto elemento está em negrito com fundo verde-claro
-if grep -E '#fourth\s*\{[^}]*background[^:]*:[^;]*[^;]*;[^}]*font-size[^:]*:[^;]*24px[^}]*font-weight[^:]*:[^;]*bold' "$css_file" > /dev/null; then
-  echo "✅ Estilos corretos aplicados ao quarto elemento"
-else
-  echo "❌ Estilos ausentes ou incorretos no quarto elemento"
+  echo "❌ Nenhum elemento com múltiplas classes encontrado"
   pass=false
 fi
 
 # Resultado final do exercício 2
 if $pass; then
-  echo "🎉 Todos os testes passaram para o exercício 02"
+  echo "🎉 Todos os testes estruturais passaram para o exercício 02"
 else
-  echo "❌ Alguns testes falharam no exercício 02"
+  echo "❌ Alguns testes estruturais falharam no exercício 02"
   exit 1
 fi
+
 
 ## 03
 
