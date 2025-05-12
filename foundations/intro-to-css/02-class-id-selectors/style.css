@@ -1,9 +1,10 @@
-.n1, .n3, .n5{
+.impar{
     background-color: rgb(255, 122, 122);
+    font-family: Verdana, DejaVu Sans, sans-serif;
 }
 
 #n2{
-    color: blue;
+    color: rgb(0, 0, 255);
     font-size: 36px;
 }
 
